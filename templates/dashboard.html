@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>💖 Diary</h2>
+    <a href="#">🏠 Home</a>
+    <a href="/logout">🚪 Logout</a>
+</div>
+
+<div class="main">
+
+<h1>🌸 My Secret Diary 🌸</h1>
+
+<button onclick="toggleDark()">🌙 Toggle Mode</button>
+
+<form action="/add" method="POST" enctype="multipart/form-data">
+    <input type="text" name="title" placeholder="Title">
+    <textarea name="content" placeholder="Write your thoughts..."></textarea>
+
+    <select name="mood">
+        <option>😊 Happy</option>
+        <option>😢 Sad</option>
+        <option>😍 Love</option>
+        <option>😡 Angry</option>
+    </select>
+
+    <input type="file" name="image">
+
+    <button type="submit">Save 💖</button>
+</form>
+
+<div class="entries">
+    {% for entry in entries %}
+    <div class="card">
+        <h3>{{ entry.title }}</h3>
+        <small>{{ entry.date }} • {{ entry.mood }}</small>
+        <p>{{ entry.content }}</p>
+
+        {% if entry.image %}
+        <img src="{{ url_for('static', filename=entry.image) }}">
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+
+</div>
+
+<script>
+function toggleDark() {
+    document.body.classList.toggle("dark");
+}
+</script>
+
+</body>
+</html>
